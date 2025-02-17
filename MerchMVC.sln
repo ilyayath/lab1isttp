@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerchDomain", "MerchDomain\MerchDomain.csproj", "{B69CEAE3-1209-4516-8DA7-14EE9217ED2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MerchInfrastructure", "MerchInfrastructure\MerchInfrastructure.csproj", "{54B2E11F-D41E-4E48-A3BE-7F52215E4FB1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B69CEAE3-1209-4516-8DA7-14EE9217ED2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B69CEAE3-1209-4516-8DA7-14EE9217ED2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B69CEAE3-1209-4516-8DA7-14EE9217ED2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B69CEAE3-1209-4516-8DA7-14EE9217ED2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54B2E11F-D41E-4E48-A3BE-7F52215E4FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B2E11F-D41E-4E48-A3BE-7F52215E4FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B2E11F-D41E-4E48-A3BE-7F52215E4FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B2E11F-D41E-4E48-A3BE-7F52215E4FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50038E7B-A006-4AA5-9E16-C206EB5003BF}
+	EndGlobalSection
+EndGlobal
