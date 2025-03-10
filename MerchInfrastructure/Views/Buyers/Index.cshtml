@@ -1,0 +1,50 @@
+﻿@model IEnumerable<MerchDomain.Model.Buyer>
+
+@{
+    ViewData["Title"] = "Список покупців";
+}
+
+<!-- Заголовок сторінки -->
+<div class="bg-gradient-primary text-white py-4">
+    <div class="container text-center">
+        <h2 class="m-0">⚽ Список покупців ⚽</h2>
+    </div>
+</div>
+
+<!-- Таблиця покупців -->
+<div class="container my-5">
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover m-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="py-3">Ім'я покупця</th>
+                        <th class="py-3">Місто</th>
+                        <th class="py-3">Адреса</th>
+                        <th class="text-center py-3">Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var buyer in Model)
+                    {
+                        <tr class="align-middle">
+                            <td class="py-3">⚽ @buyer.Username</td>
+                            <td class="py-3">@(buyer.City != null ? buyer.City.CityName : "Невідомо")</td>
+                            <td class="py-3">@buyer.Address</td>
+                            <td class="text-center py-3">
+                                <a asp-action="Edit" asp-route-id="@buyer.Id" class="btn btn-sm btn-outline-primary me-2">✏️ Редагувати</a>
+                                <a asp-action="Details" asp-route-id="@buyer.Id" class="btn btn-sm btn-outline-secondary me-2">📜 Деталі</a>
+                                <a asp-action="Delete" asp-route-id="@buyer.Id" class="btn btn-sm btn-outline-danger">🗑️ Видалити</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Кнопка створення нового покупця -->
+<div class="container text-center my-5">
+    <a asp-action="Create" class="btn btn-lg btn-success shadow-sm">➕ Додати покупця</a>
+</div>

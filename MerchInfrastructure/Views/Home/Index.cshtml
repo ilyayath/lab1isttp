@@ -2,7 +2,55 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container text-center mt-5">
+    <h1 class="mb-3 display-4 fw-bold text-uppercase text-primary">
+        Ласкаво просимо до GOATShop!
+    </h1>
+    <p class="lead text-secondary">
+        Знайдіть унікальний футбольний мерч улюблених команд! ⚽🔥
+    </p>
+
+    <div class="banner-container mt-4">
+        <img src="~/images/home-banner.webp" class="img-fluid rounded shadow-lg banner-image" alt="Футбольний мерч">
+    </div>
+
+    <a href="@Url.Action("Index", "Merchandises")" class="btn btn-warning btn-lg mt-4 px-5 py-3 fw-bold">
+        🔍 Переглянути товари
+    </a>
 </div>
+
+<style>
+    .banner-container {
+        max-width: 100%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+    }
+
+    .banner-image {
+        width: 100%;
+        max-width: 600px; 
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+        font-size: 2.8rem;
+    }
+
+    p {
+        font-size: 1.4rem; 
+    }
+
+    .btn-lg {
+        font-size: 1.3rem; 
+        border-radius: 8px;
+        transition: 0.3s ease-in-out;
+    }
+
+        .btn-lg:hover {
+            background: #ffca2c;
+            transform: scale(1.05);
+        }
+</style>

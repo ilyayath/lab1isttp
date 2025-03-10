@@ -19,7 +19,7 @@ public partial class Merchandise : Entity
     public decimal Price { get; set; }
 
     public virtual Brand? Brand { get; set; }
-
+    public string ImageUrl { get; set; }
     public virtual Category? Category { get; set; }
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
@@ -29,4 +29,7 @@ public partial class Merchandise : Entity
     public virtual Size? Size { get; set; }
 
     public virtual Team? Team { get; set; }
+
+    public List<UserCart> UserCarts { get; set; }
+
 }

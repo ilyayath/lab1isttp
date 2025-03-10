@@ -1,0 +1,46 @@
+﻿@model List<MerchDomain.Model.MerchOrder>
+
+@{
+    ViewData["Title"] = "Керування замовленнями";
+}
+
+<h1 class="text-center my-4">Замовлення</h1>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Покупець</th>
+                <th>Дата</th>
+                <th>Сума</th>
+                <th>Статус</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.Buyer?.Username</td>
+                    <td>@order.OrderDate.ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>@String.Format("{0:F2}", order.OrderItems.Sum(oi => oi.Merch.Price * oi.Quantity)) грн</td>
+                    <td>
+                        <form asp-action="UpdateOrderStatus" method="post" class="d-inline">
+                            <input type="hidden" name="orderId" value="@order.Id" />
+                            <select name="statusId" class="form-control d-inline w-auto" onchange="this.form.submit()">
+                                @foreach (var status in ViewBag.Statuses)
+                                {
+                                    <option value="@status.Id" selected="@(status.Id == order.StatusId)">@status.StatusName</option>
+                                }
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                        <!-- Додайте деталі замовлення за потреби -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

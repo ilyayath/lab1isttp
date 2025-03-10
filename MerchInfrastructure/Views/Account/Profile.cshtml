@@ -1,0 +1,16 @@
+﻿@model MerchInfrastructure.Models.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Профіль";
+}
+
+<h2 class="text-center my-4">Ваш профіль</h2>
+<div class="container w-50">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Email: @Model.Email</h5>
+            <!-- Додайте інші поля профілю, якщо потрібно -->
+            <a asp-action="Logout" class="btn btn-danger mt-3">Вийти</a>
+        </div>
+    </div>
+</div>

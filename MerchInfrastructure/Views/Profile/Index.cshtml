@@ -1,0 +1,20 @@
+﻿@model MerchDomain.Model.UserProfileViewModel
+
+@{
+    ViewData["Title"] = "Профіль користувача";
+}
+
+<h1 class="text-center my-4">Ваш профіль</h1>
+<div class="container">
+    <dl class="row">
+        <dt class="col-sm-3">Ім'я користувача</dt>
+        <dd class="col-sm-9">@Model.UserName</dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+
+        <dt class="col-sm-3">Телефон</dt>
+        <dd class="col-sm-9">@(Model.PhoneNumber ?? "Не вказано")</dd>
+    </dl>
+    <a asp-action="Edit" class="btn btn-primary">Редагувати профіль</a>
+</div>

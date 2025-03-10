@@ -1,0 +1,58 @@
+﻿@model List<MerchDomain.Model.CartViewModel>
+
+@{
+    ViewData["Title"] = "Оформлення замовлення";
+}
+
+<h2 class="text-center my-4 fw-bold text-dark">Оформлення замовлення</h2>
+
+<div class="container">
+    <form method="post">
+        <div class="form-group mb-3">
+            <label for="shipmentType" class="fw-bold">Тип доставки</label>
+            <select name="shipmentType" id="shipmentType" class="form-control">
+                <option value="Нова Пошта">Нова Пошта</option>
+                <option value="Укрпошта">Укрпошта</option>
+            </select>
+        </div>
+        <div class="form-group mb-3">
+            <label for="paymentType" class="fw-bold">Тип оплати</label>
+            <select name="paymentType" id="paymentType" class="form-control">
+                <option value="Картка">Картка</option>
+                <option value="Готівка">Готівка</option>
+            </select>
+        </div>
+        <h4 class="my-3">Товари у вашому кошику:</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Ціна</th>
+                    <th>Кількість</th>
+                    <th>Сума</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Merchandise.Name</td>
+                        <td>@item.Merchandise.Price грн</td>
+                        <td>@item.Quantity</td>
+                        <td>@(item.Merchandise.Price * item.Quantity) грн</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="fw-bold text-end">Загальна сума:</td>
+                    <td class="fw-bold">@String.Format("{0:F2}", ViewBag.TotalPrice) грн</td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Підтвердити замовлення</button>
+            <a href="@Url.Action("Cart", "Merchandises")" class="btn btn-secondary ms-2">Повернутися до кошика</a>
+        </div>
+    </form>
+</div>

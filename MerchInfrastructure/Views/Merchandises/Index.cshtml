@@ -1,0 +1,262 @@
+﻿@model IEnumerable<MerchDomain.Model.Merchandise>
+
+@{
+    ViewData["Title"] = "Список товарів";
+}
+
+<!-- Заголовок із градієнтом -->
+<h2 class="text-center my-4 fw-bold text-dark"
+    style="background: linear-gradient(90deg, #007bff, #00d4ff); -webkit-background-clip: text; color: transparent; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+    Футбольний мерч
+</h2>
+
+<!-- Пошук без значка -->
+<div class="container mb-4">
+    <form method="get" action="@Url.Action("Index")" class="w-50 mx-auto d-flex">
+        <input type="text" id="search" name="searchString" class="form-control border-0 shadow-sm me-2"
+               placeholder="Пошук за назвою..." value="@ViewBag.SearchString" />
+        <button type="submit" class="btn btn-outline-primary">Шукати</button>
+    </form>
+</div>
+
+<!-- Сортування та фільтри -->
+<div class="container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <select class="form-select w-auto shadow-sm border-0" onchange="location = this.value;">
+                @if (ViewBag.SortBy == "name")
+                {
+                    <option value="@Url.Action("Index", new { sortBy = "name", searchString = ViewBag.SearchString })" selected>За назвою</option>
+                }
+                else
+                {
+                    <option value="@Url.Action("Index", new { sortBy = "name", searchString = ViewBag.SearchString })">За назвою</option>
+                }
+                @if (ViewBag.SortBy == "price")
+                {
+                    <option value="@Url.Action("Index", new { sortBy = "price", searchString = ViewBag.SearchString })" selected>За ціною (зростання)</option>
+                }
+                else
+                {
+                    <option value="@Url.Action("Index", new { sortBy = "price", searchString = ViewBag.SearchString })">За ціною (зростання)</option>
+                }
+                @if (ViewBag.SortBy == "price_desc")
+                {
+                    <option value="@Url.Action("Index", new { sortBy = "price_desc", searchString = ViewBag.SearchString })" selected>За ціною (спадання)</option>
+                }
+                else
+                {
+                    <option value="@Url.Action("Index", new { sortBy = "price_desc", searchString = ViewBag.SearchString })">За ціною (спадання)</option>
+                }
+                @if (ViewBag.SortBy == "category")
+                {
+                    <option value="@Url.Action("Index", new { sortBy = "category", searchString = ViewBag.SearchString })" selected>За категорією (А-Я)</option>
+                }
+                else
+                {
+                    <option value="@Url.Action("Index", new { sortBy = "category", searchString = ViewBag.SearchString })">За категорією (А-Я)</option>
+                }
+                @if (ViewBag.SortBy == "category_desc")
+                {
+                    <option value="@Url.Action("Index", new { sortBy = "category_desc", searchString = ViewBag.SearchString })" selected>За категорією (Я-А)</option>
+                }
+                else
+                {
+                    <option value="@Url.Action("Index", new { sortBy = "category_desc", searchString = ViewBag.SearchString })">За категорією (Я-А)</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <form method="get" class="bg-light p-4 rounded shadow-sm">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label fw-semibold text-muted">Категорія</label>
+                <select name="category" class="form-select border-0 shadow-sm">
+                    <option value="">Всі категорії</option>
+                    @foreach (var categoryItem in ViewBag.Categories)
+                    {
+                        if (categoryItem == ViewBag.SelectedCategory)
+                        {
+                            <option value="@categoryItem" selected>@categoryItem</option>
+                        }
+                        else
+                        {
+                            <option value="@categoryItem">@categoryItem</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-semibold text-muted">Команда</label>
+                <select name="team" class="form-select border-0 shadow-sm">
+                    <option value="">Всі команди</option>
+                    @foreach (var teamItem in ViewBag.Teams)
+                    {
+                        if (teamItem == ViewBag.SelectedTeam)
+                        {
+                            <option value="@teamItem" selected>@teamItem</option>
+                        }
+                        else
+                        {
+                            <option value="@teamItem">@teamItem</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-semibold text-muted">Бренд</label>
+                <select name="brand" class="form-select border-0 shadow-sm">
+                    <option value="">Всі бренди</option>
+                    @foreach (var brandItem in ViewBag.Brands)
+                    {
+                        if (brandItem == ViewBag.SelectedBrand)
+                        {
+                            <option value="@brandItem" selected>@brandItem</option>
+                        }
+                        else
+                        {
+                            <option value="@brandItem">@brandItem</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-semibold text-muted">Розмір</label>
+                <select name="size" class="form-select border-0 shadow-sm">
+                    <option value="">Всі розміри</option>
+                    @foreach (var sizeItem in ViewBag.Sizes)
+                    {
+                        if (sizeItem == ViewBag.SelectedSize)
+                        {
+                            <option value="@sizeItem" selected>@sizeItem</option>
+                        }
+                        else
+                        {
+                            <option value="@sizeItem">@sizeItem</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row mt-4 justify-content-center">
+            <div class="col-auto">
+                <button type="submit" class="btn btn-warning px-4 py-2 fw-semibold shadow-sm">Фільтрувати</button>
+            </div>
+            <div class="col-auto">
+                <a href="/Merchandises" class="btn btn-outline-secondary px-4 py-2 fw-semibold shadow-sm">Скинути</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Список товарів -->
+<div class="container">
+    <div class="row g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 col-sm-6">
+                <div class="card h-100 shadow-sm border-0 transition-hover" style="transition: transform 0.3s, box-shadow 0.3s;">
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name" />
+                    }
+                    else
+                    {
+                        <img src="https://via.placeholder.com/300x200?text=Немає+зображення" class="card-img-top" alt="Немає зображення" />
+                    }
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold text-dark text-truncate" title="@item.Name">@item.Name</h5>
+                        <p class="card-text text-muted small">
+                            <span class="d-block">Категорія: @(item.Category?.CategoryName ?? "Невідомо")</span>
+                            <span class="d-block">Команда: @(item.Team?.TeamName ?? "Невідомо")</span>
+                            <span class="d-block">Бренд: @(item.Brand?.BrandName ?? "Невідомо")</span>
+                            <span class="d-block">Розмір: @(item.Size?.SizeName ?? "Невідомо")</span>
+                        </p>
+                        <p class="fw-bold text-success fs-5 mt-2">@item.Price <span class="fs-6">грн</span></p>
+                        <div class="mt-2">
+                            <a href="@Url.Action("Details", "Merchandises", new { id = item.Id })"
+                               class="btn btn-primary w-75 fw-semibold shadow-sm">Детальніше</a>
+                            <form method="post" action="@Url.Action("AddToCart", "Merchandises")" class="mt-2">
+                                <input type="hidden" name="merchandiseId" value="@item.Id" />
+                                <button type="submit" class="btn btn-success w-75 fw-semibold shadow-sm">Додати в кошик</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Пагінація -->
+<div class="container mt-5">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(ViewBag.Page == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.Page - 1, sortBy = ViewBag.SortBy, searchString = ViewBag.SearchString, category = ViewBag.SelectedCategory, team = ViewBag.SelectedTeam, brand = ViewBag.SelectedBrand, size = ViewBag.SelectedSize })">Попередня</a>
+            </li>
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.Page ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = i, sortBy = ViewBag.SortBy, searchString = ViewBag.SearchString, category = ViewBag.SelectedCategory, team = ViewBag.SelectedTeam, brand = ViewBag.SelectedBrand, size = ViewBag.SelectedSize })">@i</a>
+                </li>
+            }
+            <li class="page-item @(ViewBag.Page == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = ViewBag.Page + 1, sortBy = ViewBag.SortBy, searchString = ViewBag.SearchString, category = ViewBag.SelectedCategory, team = ViewBag.SelectedTeam, brand = ViewBag.SelectedBrand, size = ViewBag.SelectedSize })">Наступна</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Підключення бібліотек -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<script>
+    $("#search").autocomplete({
+        source: "/Merchandises/SearchSuggestions",
+        select: function (event, ui) {
+            window.location.href = "/Merchandises/Index?searchString=" + ui.item.value;
+        }
+    });
+</script>
+
+<!-- Додатковий CSS -->
+<style>
+    .transition-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        transition: all 0.3s;
+    }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #e0a800;
+            transform: scale(1.05);
+        }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .pagination .active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .text-truncate {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>

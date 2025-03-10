@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MerchDomain.Model;
 
-public partial class Buyer: Entity
+public partial class Buyer : Entity
 {
 
     public string Username { get; set; } = null!;

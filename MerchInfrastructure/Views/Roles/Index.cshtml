@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+<h2>Список ролей</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Назва ролі</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>@role.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

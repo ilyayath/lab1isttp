@@ -1,0 +1,51 @@
+﻿@model List<MerchDomain.Model.Merchandise>
+
+@{
+    ViewData["Title"] = "Керування товарами";
+}
+
+<h1 class="text-center my-4">Товари</h1>
+<div class="container">
+    <a asp-action="CreateMerchandise" class="btn btn-success mb-3">Додати товар</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Назва</th>
+                <th>Ціна</th>
+                <th>Категорія</th>
+                <th>Бренд</th>
+                <th>Зображення</th> <!-- Додано стовпець для зображення -->
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@String.Format("{0:F2}", item.Price) грн</td>
+                    <td>@item.Category?.CategoryName</td>
+                    <td>@item.Brand?.BrandName</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@item.ImageUrl" alt="@item.Name" style="max-width: 100px; max-height: 100px;" />
+                        }
+                        else
+                        {
+                            <span>Немає зображення</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="EditMerchandise" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Редагувати</a>
+                        <form asp-action="DeleteMerchandise" asp-route-id="@item.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені?');">Видалити</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

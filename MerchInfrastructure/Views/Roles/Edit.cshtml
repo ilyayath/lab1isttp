@@ -1,0 +1,20 @@
+﻿@model ChangeRoleViewModel
+
+<h2>Редагування ролей для @Model.UserEmail</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="userId" value="@Model.UserId" />
+    <div class="form-group">
+        @foreach (var role in Model.AllRoles)
+        {
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="roles" value="@role"
+                    @(Model.UserRoles.Contains(role) ? "checked" : "") /> @role
+                </label>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+    <a asp-action="UserList" class="btn btn-secondary">Назад</a>
+</form>

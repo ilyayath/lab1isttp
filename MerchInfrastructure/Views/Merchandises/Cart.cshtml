@@ -1,0 +1,62 @@
+﻿@model List<MerchDomain.Model.CartViewModel>
+
+@{
+    ViewData["Title"] = "Кошик";
+}
+
+<h2 class="text-center my-4 fw-bold text-dark">Ваш кошик</h2>
+
+<div class="container">
+    @if (Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Ціна</th>
+                    <th>Кількість</th>
+                    <th>Сума</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Merchandise.Name</td>
+                        <td>@item.Merchandise.Price грн</td>
+                        <td>
+                            <form method="post" action="@Url.Action("UpdateCart", "Merchandises")" class="d-inline">
+                                <input type="hidden" name="merchandiseId" value="@item.Merchandise.Id" />
+                                <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control d-inline w-25" />
+                                <button type="submit" class="btn btn-sm btn-outline-primary ms-2">Оновити</button>
+                            </form>
+                        </td>
+                        <td>@(item.Merchandise.Price * item.Quantity) грн</td>
+                        <td>
+                            <form method="post" action="@Url.Action("RemoveFromCart", "Merchandises")" class="d-inline">
+                                <input type="hidden" name="merchandiseId" value="@item.Merchandise.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">Видалити</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="fw-bold text-end">Загальна сума:</td>
+                    <td class="fw-bold">@String.Format("{0:F2}", ViewBag.TotalPrice) грн</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+    else
+    {
+        <p class="text-center">Ваш кошик порожній.</p>
+    }
+    <div class="text-center">
+        <a href="@Url.Action("Index", "Merchandises")" class="btn btn-secondary">Продовжити покупки</a>
+        <a href="@Url.Action("Checkout", "Merchandises")" class="btn btn-primary ms-3">Оформити замовлення</a>
+    </div>
+</div>

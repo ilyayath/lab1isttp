@@ -1,0 +1,31 @@
+﻿@model MerchDomain.Model.MerchOrder
+
+@{
+    ViewData["Title"] = "Підтвердження замовлення";
+}
+
+<h2 class="text-center my-4 fw-bold text-dark">Замовлення успішно оформлено!</h2>
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Номер замовлення:</strong> @Model.Id</p>
+            <p><strong>Дата:</strong> @Model.OrderDate.ToString("dd.MM.yyyy HH:mm")</p>
+            <p><strong>Тип оплати:</strong> @Model.Payment.TypePayment</p>
+            <p><strong>Тип доставки:</strong> @Model.Shipment.TypeShipment</p>
+            <p><strong>Статус:</strong> @Model.Status.StatusName</p>
+            <h4 class="my-3">Товари:</h4>
+            <ul class="list-group">
+                @foreach (var item in Model.OrderItems)
+                {
+                    <li class="list-group-item">
+                        @item.Merch.Name - @item.Quantity шт. (@(item.Merch.Price * item.Quantity) грн)
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <a href="@Url.Action("Index", "Merchandises")" class="btn btn-primary">Повернутися до магазину</a>
+    </div>
+</div>

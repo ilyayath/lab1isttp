@@ -1,50 +1,208 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using MerchDomain.Model
+
+<!DOCTYPE html>
+<html lang="uk">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MerchInfrastructure</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewData["Title"] - GOATSHOP</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MerchInfrastructure.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        .navbar {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 24px;
+            color: #ffc107 !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link {
+            color: white !important;
+            font-size: 16px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+            .nav-link:hover {
+                background: #ffc107;
+                color: #1a1a2e !important;
+                transform: scale(1.05);
+            }
+
+        .btn-login {
+            background: #ffc107;
+            color: #212529 !important;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 8px 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+            .btn-login:hover {
+                background: #ffca2c;
+                transform: scale(1.05);
+            }
+
+        .cart-icon {
+            position: relative;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #ffc107;
+            color: #1a1a2e;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 25px 0;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 50px;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+            .footer a {
+                color: #ffc107;
+                text-decoration: none;
+                transition: all 0.3s ease-in-out;
+            }
+
+                .footer a:hover {
+                    color: #ffca2c;
+                    text-decoration: underline;
+                }
+
+        body {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MerchInfrastructure</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Merchandises" asp-action="Index">⚽ GOATShop</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-controller="Merchandises" asp-action="Index">Мерч</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Merchandises" asp-action="Orders">Мої замовлення</a>
+                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Admin" asp-action="Merchandises">Адмін: Товари</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Admin" asp-action="Orders">Адмін: Замовлення</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link cart-icon" asp-controller="Merchandises" asp-action="Cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                @if (ViewBag.CartCount > 0)
+                                {
+                                    <span class="cart-badge">@ViewBag.CartCount</span>
+                                }
+                            </a>
+                        </li>
+                        <li class="nav-item ms-3">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link" asp-controller="Profile" asp-action="Index">Профіль</a>
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="nav-link btn btn-login">Вийти</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <a class="nav-link btn btn-login" asp-controller="Account" asp-action="Login">Увійти</a>
+                            }
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+
+    <div class="container mt-4">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-center py-1">
         <div class="container">
-            &copy; 2025 - MerchInfrastructure - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <span>© 2025 GOATShop | Всі права захищені | <a href="#">Політика конфіденційності</a></span>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            updateCartCount();
+        });
+
+        function updateCartCount() {
+            fetch('@Url.Action("GetCartCount", "Merchandises")')
+                .then(response => response.json())
+                .then(data => {
+                    const badge = document.querySelector('.cart-badge');
+                    if (data.count > 0) {
+                        badge.textContent = data.count;
+                        badge.style.display = 'inline';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                });
+        }
+    </script>
 </body>
 </html>
